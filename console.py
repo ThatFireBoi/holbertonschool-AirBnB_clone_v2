@@ -132,6 +132,7 @@ class HBNBCommand(cmd.Cmd):
             value = value.replace('_', ' ')
             # Check if value is a string
             if value[0] == '"' and value[-1] == '"':
+                value = value[1:-1].replace('\\"', '"')
                 # Remove quotes
                 value = value[1:-1]
             # Check if value is a float
