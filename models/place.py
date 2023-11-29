@@ -3,9 +3,18 @@
 import models
 from models.review import Review
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
+
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True, nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -26,6 +35,8 @@ class Place(BaseModel, Base):
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref="place",
                                cascade="all, delete, delete-orphan")
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False, back_populates="place_amenities")
     else:
         @property
         def reviews(self):
@@ -36,3 +47,15 @@ class Place(BaseModel, Base):
                 if revs.place_id == self.id:
                     review_list.append(revs)
             return review_list
+
+        @property
+        def amenities(self):
+            """Getter attribute amenities that returns the list of Amenity instances"""
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, obj):
+            """Setter attribute amenities that handles append method for adding an Amenity.id
+            to the attribute amenity_ids"""
+            if type(obj).__name__ == "Amenity":
+                self.amenity_ids.append(obj.id)
