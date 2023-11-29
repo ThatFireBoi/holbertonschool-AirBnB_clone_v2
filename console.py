@@ -10,7 +10,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -125,33 +124,27 @@ class HBNBCommand(cmd.Cmd):
             return
         new_instance = HBNBCommand.classes[arg[0]]()
         for param in arg[1:]:
-            key, value = param.split('=')
-            # check if he key is a valid attribute
+            parts = param.split('=')
+            if len(parts) != 2:
+                continue
+            key, value = parts
             if not hasattr(new_instance, key):
                 continue
-            # Replace underscores with spaces
             value = value.replace('_', ' ')
-            # Check if value is a string
             if value[0] == '"' and value[-1] == '"':
-                # Remove quotes
-                value = value[1:-1]
-            # Check if value is a float
+                value = value[1:-1].replace('\\"', '"')
             elif '.' in value:
                 try:
                     value = float(value)
-                    # Check if value is an float
                 except ValueError:
                     continue
-            # Treat it like an integer
             else:
                 try:
                     value = int(value)
-                    # Check if value is an integer
                 except ValueError:
                     continue
             setattr(new_instance, key, value)
-        storage.save()
-        FileStorage.save(new_instance)
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
