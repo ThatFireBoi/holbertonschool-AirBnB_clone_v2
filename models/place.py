@@ -54,8 +54,8 @@ class Place(BaseModel, Base):
             return self.amenity_ids
 
         @amenities.setter
-        def amenities(self, obj):
+        def amenities(self, value):
             """Setter attribute amenities that handles append method for adding an Amenity.id
             to the attribute amenity_ids"""
-            if type(obj).__name__ == "Amenity":
-                self.amenity_ids.append(obj.id)
+            if type(value).__name__ == "Amenity":
+                self.amenity_ids.append(value.id)
