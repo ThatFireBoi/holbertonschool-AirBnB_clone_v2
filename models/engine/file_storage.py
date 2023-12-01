@@ -20,7 +20,8 @@ class FileStorage:
         if cls is None:
             return FileStorage.__objects
         else:
-            # return {key: val for key, val in FileStorage.__objects.items() if isinstance(val, cls)}
+            # return {key: val for key, val in
+            # FileStorage.__objects.items() if isinstance(val, cls)}
             temp = {}
             for key, val in FileStorage.__objects.items():
                 if isinstance(val, cls):
