@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>States</title>
+        <title>HBNB</title>
     </head>
     <body>
         {% if id == None %}
         <h1>States</h1>
         <ul>
-            {% for i in states.values() | sort(attribute='name') %}
-            <li>{{ i.id }}: <b>{{ i.name }}</b></li>
+            {% for ste in states.values() | sort(attribute='name') %}
+            <li>{{ ste.id }}: <b>{{ ste.name }}</b></li>
             {% endfor %}
         </ul>
         {% elif state %}
-        <h1>State: {{ state.name }}</h1>
-        <h3>Cities:</h3>
-        <ul>
-            {% for city in state.cities | sort(attribute='name') %}
-            <li>{{ city.id }}: <b>{{ city.name }}</b></li>
-            {% endfor %}
-        </ul>
+            <h1>State: {{state.name}}</h1>
+            <h3>Cities:</h3>
+            <ul>
+                {% for city in states.cities | sort(attribute='name') %}
+                <li>{{ city.id }}: <b>{{ city.name }}</b></li>
+                {% endfor %}
+            </ul>
         {% else %}
         <h1>Not found!</h1>
         {% endif %}
