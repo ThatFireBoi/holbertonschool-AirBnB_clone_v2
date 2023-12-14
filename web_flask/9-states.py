@@ -20,7 +20,8 @@ def states_id(id):
     """Display a HTML page with a list of states"""
     states = storage.all(State)
     cities = storage.all(City)
-    return render_template('9-states.html', states=states, cities=cities, id=id)
+    return render_template('9-states.html', states=states,
+                           cities=cities, id=id)
 
 
 @app.teardown_appcontext
