@@ -33,13 +33,13 @@ def python(text='is cool'):
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """Display n is a number only if n is an integer"""
-    return '{} is a number'.format(n)
+    return '{:d} is a number'.format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
     """Display HTML page only if n is an integer"""
-    return render_template('5-number.html', n=n)
+    return render_template('5-number.html', number=n)
 
 
 if __name__ == '__main__':
