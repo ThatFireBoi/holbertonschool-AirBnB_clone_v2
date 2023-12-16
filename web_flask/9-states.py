@@ -24,16 +24,21 @@ def cities_by_states():
                            cities=cities)
 
 
-@app.route('/states', strict_slashes=False)
-@app.route('/states/<id>', strict_slashes=False)
-def states(id=None):
-    state_dic = storage.all(State)
-    state = None
-    for obj in state_dic.values():
-        if obj.id == id:
-            state = obj
-    return render_template('9-states.html', states=state_dic, id=id,
-                           state=state)
+@app.route('/states')
+def states():
+    states = storage.all(State)
+    return render_template('9-states.html', states=states)
+
+
+@app.route('/states/<id>')
+def states_id(id):
+    states = storage.all(State).values()
+    state = next((state for state in states if state.id == id), None)
+    if state is not None:
+        cities = sorted(state.cities, key=lambda city: city.name)
+    else:
+        cities = []
+    return render_template('9-states.html', state=state, cities=cities)
 
 
 @app.teardown_appcontext
