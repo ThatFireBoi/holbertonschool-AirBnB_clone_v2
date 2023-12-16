@@ -29,7 +29,7 @@ def cities_by_states():
 @app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
 def states(id=None):
-    state_dic = storage.all(State).values()
+    state_dic = storage.all(State)
     state = None
     for obj in state_dic.values():
         if obj.id == id:
@@ -39,7 +39,7 @@ def states(id=None):
 
 
 @app.teardown_appcontext
-def teardown_appcontext(exception):
+def teardown_appcontext(self):
     """ Function that removes the current SQL Alchemy Session after each
     request. """
     storage.close()
