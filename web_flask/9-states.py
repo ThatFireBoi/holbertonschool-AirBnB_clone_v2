@@ -17,28 +17,22 @@ def states_list():
 
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_states():
-    """Display a HTML page with a list of states"""
-    states = storage.all(State).values()
-    cities = storage.all(City).values()
-    return render_template('8-cities_by_states.html', states=states,
-                           cities=cities)
+    """ Route that display a HTML page with a list of cities
+    objects sorted by name """
+    cities = storage.all(State).values()
+    return render_template('8-cities_by_states.html', cities=cities)
 
 
-@app.route('/states')
-def states():
-    states = storage.all(State)
-    return render_template('9-states.html', states=states)
-
-
-@app.route('/states/<id>')
-def states_id(id):
-    states = storage.all(State).values()
-    state = next((state for state in states if state.id == id), None)
-    if state is not None:
-        cities = sorted(state.cities, key=lambda city: city.name)
-    else:
-        cities = []
-    return render_template('9-states.html', state=state, cities=cities)
+@app.route('/states', strict_slashes=False)
+@app.route('/states/<id>', strict_slashes=False)
+def states(id=None):
+    state_dic = storage.all(State)
+    state = None
+    for obj in state_dic.values():
+        if obj.id == id:
+            state = obj
+    return render_template('9-states.html', states=state_dic, id=id,
+                           state=state)
 
 
 @app.teardown_appcontext
