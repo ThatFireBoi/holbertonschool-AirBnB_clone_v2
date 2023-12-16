@@ -29,7 +29,7 @@ def cities_by_states():
 @app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
 def states(id=None):
-    state_dic = storage.all(State)
+    state_dic = storage.all(State).values()
     state = None
     for obj in state_dic.values():
         if obj.id == id:
@@ -46,4 +46,4 @@ def teardown_appcontext(exception):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
