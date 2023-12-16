@@ -4,6 +4,7 @@
 from flask import Flask, render_template
 from models import storage
 from models.state import State
+from models.city import City
 
 
 app = Flask(__name__)
@@ -11,18 +12,18 @@ app = Flask(__name__)
 
 @app.route('/states_list', strict_slashes=False)
 def states_list():
-    """ Route that display a HTML page with a list of states
-    objects sorted by name """
-    state_li = storage.all(State).values()
-    return render_template('7-states_list.html', states=state_li)
+    """Display a HTML page with a list of states"""
+    states = storage.all(State).values()
+    return render_template('7-states_list.html', states=states)
 
 
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_states():
-    """ Route that display a HTML page with a list of cities
-    objects sorted by name """
-    city_li = storage.all(State).values()
-    return render_template('8-cities_by_states.html', cities=city_li)
+    """Display a HTML page with a list of states"""
+    states = storage.all(State).values()
+    cities = storage.all(City).values()
+    return render_template('8-cities_by_states.html', states=states,
+                           cities=cities)
 
 
 @app.route('/states', strict_slashes=False)
