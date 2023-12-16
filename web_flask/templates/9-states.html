@@ -7,8 +7,8 @@
         {% if id == None %}
         <h1>States</h1>
         <ul>
-            {% for ste in states.values() | sort(attribute='name') %}
-            <li>{{ ste.id }}: <b>{{ ste.name }}</b></li>
+            {% for state in states.values() | sort(attribute='name') %}
+            <li>{{ state.id }}: <b>{{ state.name }}</b></li>
             {% endfor %}
         </ul>
         {% elif state %}
