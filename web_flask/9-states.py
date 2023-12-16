@@ -25,19 +25,15 @@ def cities_by_states():
 
 
 @app.route('/states', strict_slashes=False)
-def states():
-    """Display a HTML page with a list of states"""
-    states = storage.all(State).values()
-    return render_template('9-states.html', states=states)
-
-
 @app.route('/states/<id>', strict_slashes=False)
-def states_id(id):
-    """Display a HTML page with a list of states"""
-    states = storage.all(State).values()
-    cities = storage.all(City).values()
-    return render_template('9-states.html', states=states,
-                           cities=cities, id=id)
+def states(id=None):
+    state_dic = storage.all(State)
+    state = None
+    for obj in state_dic.values():
+        if obj.id == id:
+            state = obj
+    return render_template('9-states.html', states=state_dic, id=id,
+                           state=state)
 
 
 @app.teardown_appcontext
