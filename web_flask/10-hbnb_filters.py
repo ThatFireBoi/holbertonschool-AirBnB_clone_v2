@@ -4,17 +4,17 @@
 from flask import Flask, render_template
 from models import storage
 from models.state import State
-from models.city import City
+from models.amenity import Amenity
 app = Flask(__name__)
 
 
 @app.route('/hbnb_filters', strict_slashes=False)
 def hbnb_filters():
     """Display a HTML page with a list of states"""
-    states = storage.all(State)
-    cities = storage.all(City)
+    states = storage.all(State).values()
+    amenity = storage.all(Amenity).values()
     return render_template('10-hbnb_filters.html', states=states,
-                           cities=cities)
+                           amenity=amenity)
 
 
 @app.teardown_appcontext
